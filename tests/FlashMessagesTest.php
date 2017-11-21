@@ -16,6 +16,9 @@ class FlashMessagesTest extends TestCase
      */
     protected $flash;
 
+    /**
+     * {@inheritdoc}
+     */
     public function setUp()
     {
         $this->session = new Store('test', new \Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler());
@@ -34,5 +37,18 @@ class FlashMessagesTest extends TestCase
         $this->assertCount(2, $this->flash->getMessages());
     }
 
-    //more test later
+    /**
+     * @test
+     */
+    public function it_work_as_flash()
+    {
+        $this->flash->addMessage('Message');
+
+        $this->session->ageFlashData();
+        $this->assertEquals('Message', $this->flash->getMessages()->first()->text);
+        $this->assertCount(1, $this->flash->getMessages());
+
+        $this->session->ageFlashData();
+        $this->assertEmpty($this->flash->getMessages());
+    }
 }

@@ -7,12 +7,23 @@ use Illuminate\Support\ServiceProvider;
 class FlashServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
-     *
-     * @return void
+     * {@inheritdoc}
+     */
+    protected $defer = true;
+
+    /**
+     * {@inheritdoc}
      */
     public function register()
     {
-        $this->app->singleton([Sender::class => 'flash']);
+        $this->app->singleton('flash', Sender::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function provides()
+    {
+        return ['flash'];
     }
 }

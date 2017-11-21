@@ -13,7 +13,6 @@ class FlashServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Sender::class, 'flash');
+        $this->app->singleton([Sender::class => 'flash']);
     }
 }
-

@@ -7,9 +7,6 @@ Easy Flash Messages for Your Laravel App
 composer require larapac/flash
 ```
 
-## Other
-If you want more simplest use class from gist: [FlashMessageSender](https://gist.github.com/Ellrion/7ee8085b35f0de8c6d386255f9dd16bb)
-
 ## Usage
 
 For send messages use helper `flash()`
@@ -70,3 +67,11 @@ Add to message extra data:
       {{ $message->level }}: {{ $message->text }} {{ $message->important ? '!' : '.' }}
   @endforeach
 ```
+
+## Other
+If you want more simplest use class from gist: [FlashMessageSender](https://gist.github.com/Ellrion/7ee8085b35f0de8c6d386255f9dd16bb)
+
+Or see this packages:
+- [codecourse/notify](https://github.com/codecourse/notify)
+- [laracasts/flash](https://github.com/laracasts/flash)
+

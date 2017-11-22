@@ -18,14 +18,6 @@
 composer require larapac/flash
 ```
 
-## Дополнительно
-
-Для тех кто не любит микропакеты можно воспользоваться следующим кодом: [FlashMessageSender](https://gist.github.com/Ellrion/7ee8085b35f0de8c6d386255f9dd16bb)
-
-Так же возможно вам больше подойдет один из следующих пакетов:
-- [codecourse/notify](https://github.com/codecourse/notify)
-- [laracasts/flash](https://github.com/laracasts/flash)
-
 ## Использование
 
 Для "отправки" сообщения можно воспользоваться хэлпером `flash()`
@@ -87,3 +79,11 @@ Errors:
       {{ $message->level }}: {{ $message->text }} {{ $message->important ? '!' : '.' }}
   @endforeach
 ```
+
+## Дополнительно
+
+Для тех кто не любит микропакеты можно воспользоваться следующим кодом: [FlashMessageSender](https://gist.github.com/Ellrion/7ee8085b35f0de8c6d386255f9dd16bb)
+
+Так же возможно вам больше подойдет один из следующих пакетов:
+- [codecourse/notify](https://github.com/codecourse/notify)
+- [laracasts/flash](https://github.com/laracasts/flash)

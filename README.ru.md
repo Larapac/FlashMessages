@@ -57,14 +57,33 @@ composer require larapac/flash
   flash()->warning('Warming level message');
   flash()->warning('Warming level message two');
   flash()->danger('Danget level message');
-  flash()->Error('Danget level message from alias method');
+  flash()->error('Danget level message from alias method');
+```
+
+Возможно взять сообщения только определенного уровня:
+
+```blade
+Errors:
+    @foreach(flash()->messages('danger') as $message)
+        {{ $message->text }};
+    @endforeach
+    @foreach($errors->all() as $message)
+        {{ $message }};
+    @endforeach
 ```
 
 К сообщению можно добавлять дополнительные данные:
-```
+
+```php
   //use array
   flash()->info('Message', ['important' => true, 'timeout' => 3]);
 
   //fluent style
   flash()->info('Message')->important()->timeout(3);
+```
+
+```blade
+  @foreach (flash()->messages() as $message)
+      {{ $message->level }}: {{ $message->text }} {{ $message->important ? '!' : '.' }}
+  @endforeach
 ```

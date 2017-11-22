@@ -46,7 +46,7 @@ class Sender
      *
      * @param string $message
      * @param array $data
-     * @return Message
+     * @return \Larapac\FlashMessages\Message
      */
     public function info($message, array $data = [])
     {
@@ -58,7 +58,7 @@ class Sender
      *
      * @param string $message
      * @param array $data
-     * @return Message
+     * @return \Larapac\FlashMessages\Message
      */
     public function success($message, array $data = [])
     {
@@ -70,7 +70,7 @@ class Sender
      *
      * @param string $message
      * @param array $data
-     * @return Message
+     * @return \Larapac\FlashMessages\Message
      */
     public function warning($message, array $data = [])
     {
@@ -82,7 +82,7 @@ class Sender
      *
      * @param string $message
      * @param array $data
-     * @return Message
+     * @return \Larapac\FlashMessages\Message
      */
     public function danger($message, array $data = [])
     {
@@ -96,7 +96,7 @@ class Sender
      *
      * @param string $message
      * @param array $data
-     * @return Message
+     * @return \Larapac\FlashMessages\Message
      */
     public function error($message, array $data = [])
     {
@@ -109,11 +109,12 @@ class Sender
      * @param string $message
      * @param string $level
      * @param array $data
-     * @return Message
+     * @return \Larapac\FlashMessages\Message
      */
     public function addMessage($message, $level = 'info', array $data = [])
     {
-        $msg_object = new Message(array_merge($data, ['text' => $message, 'level' => $level]), $this);
+        $msg_object = new Message(array_merge($data, ['text' => $message, 'level' => $level]));
+        $msg_object->setOnChangeCallback([$this, 'reFlash']);
 
         $this->messages->prepend($msg_object);
 
@@ -126,7 +127,7 @@ class Sender
      * Return collection messages by level or all.
      *
      * @param string|null $level
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection|\Larapac\FlashMessages\Message[]
      */
     public function getMessages($level = null)
     {
@@ -138,7 +139,7 @@ class Sender
         );
 
         $messages = (new Collection($messages))->map(function ($message) {
-            return (object) $message;
+            return new Message($message);
         });
 
         if (null === $level) {

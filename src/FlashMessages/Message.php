@@ -4,18 +4,37 @@ namespace Larapac\FlashMessages;
 
 use Illuminate\Support\Fluent;
 
+/**
+ * @property string $text
+ * @property string $level
+ */
 class Message extends Fluent
 {
     /**
-     * @var Sender
+     * Callback for object data changed event.
+     *
+     * @var callable|null
      */
-    private $sender;
+    private $onChangeCallback;
 
-    public function __construct($attributes = [], Sender $sender)
+    /**
+     * Set callback for object data changed event.
+     *
+     * @param $callback
+     */
+    public function setOnChangeCallback($callback)
     {
-        $this->sender = $sender;
+        $this->onChangeCallback = $callback;
+    }
 
-        parent::__construct($attributes);
+    /**
+     * Event of data is changed.
+     */
+    private function onChange()
+    {
+        if (null !== $this->onChangeCallback) {
+            call_user_func($this->onChangeCallback);
+        }
     }
 
     /**
@@ -25,9 +44,27 @@ class Message extends Fluent
     {
         parent::__call($method, $parameters);
 
-        $this->sender->reFlash();
+        $this->onChange();
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetSet($offset, $value)
+    {
+        parent::offsetSet($offset, $value);
+        $this->onChange();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetUnset($offset)
+    {
+        parent::offsetUnset($offset);
+        $this->onChange();
     }
 
     public function info()

@@ -46,7 +46,7 @@ class Sender
      *
      * @param string $message
      * @param array $data
-     * @return object
+     * @return Message
      */
     public function info($message, array $data = [])
     {
@@ -58,7 +58,7 @@ class Sender
      *
      * @param string $message
      * @param array $data
-     * @return object
+     * @return Message
      */
     public function success($message, array $data = [])
     {
@@ -66,27 +66,41 @@ class Sender
     }
 
     /**
-     * Flash an error message.
+     * Flash a warning message.
      *
      * @param string $message
      * @param array $data
-     * @return object
+     * @return Message
      */
-    public function error($message, array $data = [])
+    public function warning($message, array $data = [])
+    {
+        return $this->addMessage($message, 'warning', $data);
+    }
+
+    /**
+     * Flash an danger message.
+     *
+     * @param string $message
+     * @param array $data
+     * @return Message
+     */
+    public function danger($message, array $data = [])
     {
         return $this->addMessage($message, 'danger', $data);
     }
 
     /**
-     * Flash a warning message.
+     * Flash an error message.
+     *
+     * This is alias for danger.
      *
      * @param string $message
      * @param array $data
-     * @return object
+     * @return Message
      */
-    public function warning($message, array $data = [])
+    public function error($message, array $data = [])
     {
-        return $this->addMessage($message, 'warning', $data);
+        return $this->danger($message, $data);
     }
 
     /**
@@ -95,7 +109,7 @@ class Sender
      * @param string $message
      * @param string $level
      * @param array $data
-     * @return object
+     * @return Message
      */
     public function addMessage($message, $level = 'info', array $data = [])
     {
@@ -186,5 +200,19 @@ class Sender
     protected function flushFlash()
     {
         $this->session->push(self::OLD_FLASH_LARAVEL_SESSION_ENGINE_KEY, $this->keyInStorage);
+    }
+
+    /**
+     * Clear all messages from current list and from session.
+     */
+    public function clear()
+    {
+        $this->messages = new Collection();
+        if ($this->session->has($this->keyInStorage)) {
+            $this->session->get($this->keyInStorage, []);
+        }
+        if ($this->session->has($this->keyInStorage . '_old')) {
+            $this->session->get($this->keyInStorage . '_old', []);
+        }
     }
 }

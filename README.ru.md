@@ -28,4 +28,43 @@ composer require larapac/flash
 
 ## Использование
 
-...
+Для "отправки" сообщения можно воспользоваться хэлпером `flash()`
+
+```php
+  flash('Some info message');
+```
+
+Для того что бы взять все сообщения в отображении:
+
+```blade
+  @foreach (flash()->messages() as $message)
+      {{ $message->level }}: {{ $message->text }}
+  @endforeach
+```
+
+Сообщения всегда будут иметь поля
+ - `text`
+ - `level` (success, info, warning, danger)
+ 
+Разметка для вывода самих сообщений не регламентируется сервисом и может быть любой.
+
+Сообщения можно отправлять сколько угодно и с разным уровнем:
+
+```php
+  flash('Info level message');
+  flash()->info('Info level message two');
+  flash()->success('Success level message');
+  flash()->warning('Warming level message');
+  flash()->warning('Warming level message two');
+  flash()->danger('Danget level message');
+  flash()->Error('Danget level message from alias method');
+```
+
+К сообщению можно добавлять дополнительные данные:
+```
+  //use array
+  flash()->info('Message', ['important' => true, 'timeout' => 3]);
+
+  //fluent style
+  flash()->info('Message')->important()->timeout(3);
+```

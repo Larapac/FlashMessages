@@ -46,10 +46,10 @@ composer require larapac/flash
   flash('Info level message');
   flash()->info('Info level message two');
   flash()->success('Success level message');
-  flash()->warning('Warming level message');
-  flash()->warning('Warming level message two');
-  flash()->danger('Danget level message');
-  flash()->error('Danget level message from alias method');
+  flash()->warning('Warning level message');
+  flash()->warning('Warning level message two');
+  flash()->danger('Danger level message');
+  flash()->error('Danger level message from alias method');
 ```
 
 Возможно взять сообщения только определенного уровня:
